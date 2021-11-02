@@ -25,6 +25,9 @@ import javax.persistence.Table;
 @Table(name = "doctors")
 
 public class Doctor implements Serializable {
+    /**
+     * metodos de valores Integer y string en la  columna idDoctor
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -32,20 +35,37 @@ public class Doctor implements Serializable {
     private String  department;
     private Integer year;
     private String description;
-
+    /**
+     * Metodo JoinColumn para referenciarla como relacion de columna, Getters
+     * y Setters Ignoramos la lista de doctores columna specialty
+     * @ManyToOne
+     */
     @ManyToOne
     @JoinColumn(name="categoryid")
     @JsonIgnoreProperties("doctors")
     private Especialidad specialty;
-    
+    /**
+     * Metodo OneToMany para referenciarla como relacion uno a muchos,
+     * Getters y Setters Ignoramos la lista de doctores y clientes columna
+     * messages
+     * @OneToMany
+     */
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "doctor")
     @JsonIgnoreProperties({"doctor","client"})
     private List<Mensaje> messages;
-
+    /**
+     * Metodo OneToMany para referenciarla como relacion uno a muchos,
+     * Getters y Setters Ignoramos la lista de doctores y clientes columna
+     * reservations
+     * @OneToMany
+     */
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "doctor")
     @JsonIgnoreProperties({"doctor","message"})
     public List<Reservacion> reservations;
-
+    /**
+     * despliegue de metodos getters and setters
+     * @return 
+     */
     public Integer getId() {
         return id;
     }
